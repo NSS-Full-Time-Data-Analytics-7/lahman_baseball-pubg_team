@@ -1,0 +1,6 @@
+/* 1. What range of years for baseball games played does the provided database cover? */
+-- 1871 to 2016
+SELECT MIN(yearid) AS oldest_year,
+		MAX(yearid) AS lastest_year
+FROM teams
+

@@ -1,0 +1,33 @@
+--From 1970 – 2016, what is the largest number of wins for a team that did not win the world series? 
+SELECT name,w AS wins, wswin,yearid
+FROM teams
+WHERE wswin IS NOT NULL
+AND wswin = 'N'
+AND yearid BETWEEN '1970' and '2016'
+ORDER BY wins DESC
+LIMIT 1;
+
+--What is the smallest number of wins for a team that did win the world series?
+SELECT name,w AS wins, wswin,yearid
+FROM teams
+WHERE wswin IS NOT NULL
+AND wswin = 'Y'
+AND yearid BETWEEN '1970' and '2016'
+AND yearid <> '1981'
+ORDER BY wins 
+LIMIT 1;
+
+--How often from 1970 – 2016 was it the case that a team with the most wins also won the world series?
+WITH max_wins AS   (SELECT yearid, name,wswin, w, MAX(w)
+				    OVER(PARTITION BY yearid),CAST ((CASE WHEN wswin = 'Y' AND w = MAX(w) OVER(PARTITION By yearid) THEN 1
+												  ELSE '0' END) AS numeric)
+				    FROM teams
+					WHERE yearid between '1970' and '2016' 
+					AND wswin IS NOT NULL
+					AND yearid <> '1981'
+					ORDER BY yearid,wswin DESC, w)
+SELECT SUM(numeric) AS most_wins_wswins,
+SUM(numeric)/ COUNT(DISTINCT yearid) AS most_wins_and_wswin_percent
+FROM max_wins;
+
+

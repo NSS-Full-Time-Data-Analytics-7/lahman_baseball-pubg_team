@@ -1,0 +1,79 @@
+SELECT *
+FROM homegames AS h
+LEFT JOIN parks AS p
+ON h.park = p.park ;
+
+-- Top 5 parks
+SELECT DISTINCT(park), SUM(attendance)/ SUM(games) AS attendance_per_game
+FROM homegames
+WHERE games >= 10
+GROUP By park
+ORDER By attendance_per_game DESC
+Limit 5;
+
+
+-- Bottom 5 parks 
+SELECT DISTINCT(park), SUM(attendance)/ SUM(games) AS avg_attendance
+FROM homegames
+WHERE games >= 10 
+AND attendance > 1
+GROUP By park
+ORDER By avg_attendance 
+LIMIT 5;
+
+
+-- TOP 5 Parks
+SELECT DISTINCT h.team, 
+	   p.park_name,
+       h.year,
+       t.name,   
+	   SUM(h.attendance)/ SUM(h.games) AS avg_attendance
+	   
+FROM homegames AS h
+LEFT JOIN parks AS p
+ON h.park = p.park 
+LEFT JOIN teams AS t 
+ON h.team = t.teamid AND h.year = t.yearid
+WHERE year = 2016
+AND h.games >= 10 
+GROUP BY p.park_name,h.year, t.name, h.team, h.park
+ORDER By avg_attendance DESC
+LIMIT 5;
+
+
+-- BOTTOM 5 
+SELECT DISTINCT(park), SUM(attendance)/ SUM(games) AS avg_attendance
+FROM homegames
+WHERE games >= 10 
+AND attendance > 1
+GROUP By park
+ORDER By avg_attendance 
+LIMIT 5;
+
+
+-- TOP 5 Parks
+SELECT DISTINCT h.team, 
+	   p.park_name,
+       h.year,
+       t.name,   
+	   SUM(h.attendance)/ SUM(h.games) AS avg_attendance
+	   
+FROM homegames AS h
+LEFT JOIN parks AS p
+ON h.park = p.park 
+LEFT JOIN teams AS t 
+ON h.team = t.teamid AND h.year = t.yearid
+WHERE year = 2016
+AND h.games >= 10 
+GROUP BY p.park_name,h.year, t.name, h.team, h.park
+ORDER By avg_attendance 
+LIMIT 5;
+
+
+
+
+
+
+
+
+
