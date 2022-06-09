@@ -1,0 +1,23 @@
+--Question 9
+
+with al_winner as (select * 
+				   from awardsmanagers
+				   where awardid like 'TSN%' and lgid = 'AL'),
+				   
+	 nl_winner as (select *
+				  from awardsmanagers
+				  where awardid like 'TSN%' and lgid = 'NL')
+				  
+select * 
+from al_winner 
+	inner join nl_winner using (playerid) 
+	inner join managers using (playerid)
+	inner join people using (playerid)
+	inner join teams on teams.teamid = managers.teamid 
+	and teams.lgid = managers.lgid
+	and teams.yearid = managers.yearid 
+	and teams.lgid = al_winner.lgid
+	and teams.yearid = al_winner.yearid
+
+	
+	
