@@ -1,8 +1,3 @@
-SELECT *
-FROM homegames AS h
-LEFT JOIN parks AS p
-ON h.park = p.park ;
-
 -- Top 5 parks
 SELECT DISTINCT(park), SUM(attendance)/ SUM(games) AS attendance_per_game
 FROM homegames
@@ -41,17 +36,8 @@ ORDER By avg_attendance DESC
 LIMIT 5;
 
 
--- BOTTOM 5 
-SELECT DISTINCT(park), SUM(attendance)/ SUM(games) AS avg_attendance
-FROM homegames
-WHERE games >= 10 
-AND attendance > 1
-GROUP By park
-ORDER By avg_attendance 
-LIMIT 5;
 
-
--- TOP 5 Parks
+-- Bottom 5 Parks
 SELECT DISTINCT h.team, 
 	   p.park_name,
        h.year,
